@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 
-export class ImageCard extends Component {
+class ImageCard extends Component {
 
     constructor(props) {
         super(props);
+
+        this.state = { spans: 0 };
 
         this.imageRef = React.createRef();
     }
@@ -12,8 +14,12 @@ export class ImageCard extends Component {
         this.imageRef.current.addEventListener('load', this.setSpans);
     }
 
-    setSpans() {
-        
+    setSpans = () => {
+        const height = this.imageRef.current.clientHeight;
+
+        const spans = Math.ceil(height / 10);
+
+        this.setState({ spans });
     }
 
     render() {
@@ -21,7 +27,7 @@ export class ImageCard extends Component {
         const { description, urls } = this.props.image;
 
         return (
-            <div>
+            <div style={{ gridRowEnd: `span ${this.state.spans}` }}>
                 <img 
                     ref={this.imageRef}
                     alt={description} 
@@ -32,4 +38,4 @@ export class ImageCard extends Component {
     }
 }
 
-export default ImageCard
+export default ImageCard;
